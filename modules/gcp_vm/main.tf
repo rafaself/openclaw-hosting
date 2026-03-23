@@ -1,3 +1,16 @@
+resource "google_compute_address" "static" {
+  count  = var.public_ip_mode == "static" ? 1 : 0
+  name   = "${var.instance_name}-ip"
+  region = var.region
+
+  lifecycle {
+    precondition {
+      condition     = var.region != null
+      error_message = "var.region must be set when public_ip_mode is 'static'."
+    }
+  }
+}
+
 resource "google_compute_instance" "this" {
   name                = var.instance_name
   machine_type        = var.machine_type
@@ -21,15 +34,17 @@ resource "google_compute_instance" "this" {
     subnetwork = var.subnetwork
 
     dynamic "access_config" {
-      for_each = var.enable_public_ip ? [1] : []
-      content {}
+      for_each = var.public_ip_mode != "none" ? [1] : []
+      content {
+        nat_ip = var.public_ip_mode == "static" ? google_compute_address.static[0].address : null
+      }
     }
   }
 
   metadata = {
-    enable-oslogin       = "TRUE"
+    enable-oslogin         = "TRUE"
     block-project-ssh-keys = "TRUE"
-    serial-port-enable   = "FALSE"
+    serial-port-enable     = "FALSE"
   }
 
   metadata_startup_script = var.startup_script
@@ -48,7 +63,7 @@ resource "google_compute_instance" "this" {
 }
 
 resource "google_compute_firewall" "ssh_admin" {
-  count = var.create_ssh_firewall && var.enable_public_ip ? 1 : 0
+  count = var.create_ssh_firewall && var.public_ip_mode != "none" ? 1 : 0
 
   name    = "${var.instance_name}-ssh-admin"
   network = var.network

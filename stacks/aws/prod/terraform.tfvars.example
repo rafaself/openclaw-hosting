@@ -4,7 +4,8 @@ instance_type               = "t3.small"
 ami_id                      = "ami-xxxxxxxxxxxxxxxxx"
 subnet_id                   = "subnet-xxxxxxxxxxxxxxxxx"
 vpc_security_group_ids      = ["sg-xxxxxxxxxxxxxxxxx"]
-associate_public_ip_address = true
+# public_ip_mode = "none" | "ephemeral" | "static"
+public_ip_mode              = "ephemeral"
 disk_size_gb                = 20
 
 tags = {

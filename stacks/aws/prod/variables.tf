@@ -39,10 +39,14 @@ variable "key_name" {
   nullable    = true
 }
 
-variable "associate_public_ip_address" {
-  type        = bool
-  description = "Whether to associate a public IPv4 address."
-  default     = true
+variable "public_ip_mode" {
+  type        = string
+  description = "Public IP mode: 'none', 'ephemeral', or 'static'."
+  default     = "ephemeral"
+  validation {
+    condition     = contains(["none", "ephemeral", "static"], var.public_ip_mode)
+    error_message = "The public_ip_mode value must be 'none', 'ephemeral', or 'static'."
+  }
 }
 
 variable "disk_size_gb" {

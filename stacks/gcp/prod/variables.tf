@@ -52,10 +52,14 @@ variable "subnetwork" {
   nullable    = true
 }
 
-variable "enable_public_ip" {
-  type        = bool
-  description = "Whether to attach a public IPv4 address."
-  default     = true
+variable "public_ip_mode" {
+  type        = string
+  description = "Public IP mode: 'none', 'ephemeral', or 'static'."
+  default     = "ephemeral"
+  validation {
+    condition     = contains(["none", "ephemeral", "static"], var.public_ip_mode)
+    error_message = "The public_ip_mode value must be 'none', 'ephemeral', or 'static'."
+  }
 }
 
 variable "create_ssh_firewall" {

@@ -35,10 +35,20 @@ variable "subnetwork" {
   nullable    = true
 }
 
-variable "enable_public_ip" {
-  type        = bool
-  description = "Attach a public IP address."
-  default     = true
+variable "public_ip_mode" {
+  type        = string
+  description = "Public IP mode: 'none', 'ephemeral', or 'static'."
+  default     = "ephemeral"
+  validation {
+    condition     = contains(["none", "ephemeral", "static"], var.public_ip_mode)
+    error_message = "The public_ip_mode value must be 'none', 'ephemeral', or 'static'."
+  }
+}
+
+variable "region" {
+  type        = string
+  description = "GCP region. Required when public_ip_mode is 'static' (used for the static IP reservation); ignored otherwise."
+  default     = null
 }
 
 variable "create_ssh_firewall" {

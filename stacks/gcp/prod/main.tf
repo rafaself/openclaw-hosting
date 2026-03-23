@@ -18,7 +18,8 @@ module "vm" {
   boot_image          = var.boot_image
   network             = var.network
   subnetwork          = var.subnetwork
-  enable_public_ip    = var.enable_public_ip
+  public_ip_mode      = var.public_ip_mode
+  region              = var.region
   create_ssh_firewall = var.create_ssh_firewall
   ssh_source_cidrs    = var.ssh_source_cidrs
   labels              = var.labels

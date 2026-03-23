@@ -14,8 +14,8 @@ output "private_ip" {
 }
 
 output "public_ip" {
-  description = "Primary public IP, if present."
-  value       = aws_instance.this.public_ip
+  description = "Primary public IP, if present (EIP address for static mode)."
+  value       = var.public_ip_mode == "static" ? aws_eip.this[0].public_ip : aws_instance.this.public_ip
 }
 
 output "admin_entrypoint" {

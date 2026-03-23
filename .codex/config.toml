@@ -1,0 +1,8 @@
+# Repository-local Codex configuration.
+# Keep durable behavioral preferences here if needed.
+# Example categories:
+# - sandbox preferences
+# - approval preferences
+# - project-level defaults
+#
+# Intentionally kept minimal in the initial scaffold.

@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+set -euxo pipefail
+
+export DEBIAN_FRONTEND=noninteractive
+
+apt-get update
+apt-get install -y curl ca-certificates jq git
+
+mkdir -p /var/log/agent-runtime-foundation
+mkdir -p /opt/agent-runtime-foundation
+touch /var/log/agent-runtime-foundation/bootstrap.log
+
+%{ if swap_size_gb > 0 ~}
+if ! swapon --show | grep -q '^/swapfile'; then
+  if [ ! -f /swapfile ]; then
+    fallocate -l ${swap_size_gb}G /swapfile
+    chmod 600 /swapfile
+    mkswap /swapfile
+  fi
+  swapon /swapfile
+  grep -q '^/swapfile ' /etc/fstab || echo '/swapfile none swap sw 0 0' >> /etc/fstab
+fi
+%{ endif ~}
+
+%{ if tailscale_enabled ~}
+if ! command -v tailscale >/dev/null 2>&1; then
+  curl -fsSL https://tailscale.com/install.sh | sh
+fi
+%{ endif ~}

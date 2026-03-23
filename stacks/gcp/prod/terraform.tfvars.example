@@ -1,0 +1,15 @@
+project_id         = "your-gcp-project-id"
+region             = "us-central1"
+zone               = "us-central1-a"
+instance_name      = "agent-runtime-gw"
+machine_type       = "e2-small"
+disk_size_gb       = 20
+network            = "default"
+enable_public_ip   = true
+create_ssh_firewall = true
+ssh_source_cidrs   = ["YOUR_IP/32"]
+
+labels = {
+  component = "agent-runtime"
+  env       = "prod"
+}

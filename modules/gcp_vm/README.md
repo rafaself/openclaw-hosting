@@ -77,6 +77,7 @@ Before running `init` or `apply`, review and set:
 * `machine_type`
 * `disk_size_gb`
 * `public_ip_mode`
+* `deletion_protection`
 * `ssh_source_cidrs` if you want public SSH access
 
 Create your local variables file from the example:

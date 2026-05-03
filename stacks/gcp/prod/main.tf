@@ -24,5 +24,6 @@ module "vm" {
   ssh_source_cidrs    = var.ssh_source_cidrs
   labels              = var.labels
   tags                = var.tags
+  deletion_protection = var.deletion_protection
   startup_script      = local.startup_script
 }

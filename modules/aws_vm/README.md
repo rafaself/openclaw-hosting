@@ -67,13 +67,15 @@ Your AWS identity must be allowed to:
 
 Before running `init` or `apply`, review and set:
 
-* `aws_profile`
-* `aws_region`
 * `instance_name`
 * `instance_type`
+* `ami_id`
+* `subnet_id`
+* `vpc_security_group_ids`
 * `disk_size_gb`
-* `enable_public_ip`
-* `allowed_admin_cidrs`
+* `public_ip_mode`
+* `deletion_protection`
+* `key_name` if you use an EC2 key pair for administration
 
 Create your local variables file from the example:
 

@@ -6,6 +6,7 @@ subnet_id                   = "subnet-xxxxxxxxxxxxxxxxx"
 vpc_security_group_ids      = ["sg-xxxxxxxxxxxxxxxxx"]
 # public_ip_mode = "none" | "ephemeral" | "static"
 public_ip_mode              = "ephemeral"
+deletion_protection         = false
 disk_size_gb                = 20
 
 tags = {

@@ -10,8 +10,8 @@ resource "google_compute_address" "static" {
 
   lifecycle {
     precondition {
-      condition     = var.region != null
-      error_message = "var.region must be set when public_ip_mode is 'static'."
+      condition     = var.region != null && trimspace(var.region) != ""
+      error_message = "region must be set to a non-empty GCP region when public_ip_mode is 'static', because a regional static IP reservation is required."
     }
   }
 }

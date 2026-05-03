@@ -19,6 +19,7 @@ module "vm" {
   key_name               = var.key_name
   public_ip_mode         = var.public_ip_mode
   disk_size_gb           = var.disk_size_gb
+  deletion_protection    = var.deletion_protection
   startup_script         = local.startup_script
   tags                   = var.tags
 }

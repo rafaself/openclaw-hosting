@@ -2,8 +2,7 @@
 set -euxo pipefail
 
 if ! command -v tailscale >/dev/null 2>&1; then
-  echo "Tailscale is not installed."
-  exit 1
+  curl -fsSL https://tailscale.com/install.sh | sh
 fi
 
 sudo tailscale up

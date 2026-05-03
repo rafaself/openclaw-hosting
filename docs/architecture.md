@@ -10,7 +10,7 @@ It is intentionally split into three layers:
    - cloud resources such as VM, disk, metadata, and access wiring.
 
 2. **Bootstrap**
-   - host preparation such as packages, swap, Tailscale, and directories.
+   - host preparation and runtime software steps performed after provisioning.
 
 3. **Runtime onboarding**
    - provider/model selection and final runtime setup, performed later.
@@ -38,7 +38,7 @@ Both modules should expose similar logical outputs such as:
 - admin entrypoint,
 - instance name.
 
-The shared host-baseline logic lives under `modules/startup_common`.
+The optional infrastructure startup baseline lives under `modules/startup_common`.
 
 ## First baseline
 
@@ -47,5 +47,7 @@ The first deployment baseline is:
 - Debian 12 on GCP,
 - 20 GB standard disk,
 - private-access-first networking,
-- official runtime installer flow,
+- post-provision runtime installer flow,
 - onboarding deferred until later.
+
+`tofu apply` is reserved for infrastructure changes. Tailscale enablement and OpenClaw installation happen later through the bootstrap scripts.

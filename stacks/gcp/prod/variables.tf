@@ -127,7 +127,7 @@ variable "ssh_source_cidrs" {
 
 variable "swap_size_gb" {
   type        = number
-  description = "Swap file size for the startup script."
+  description = "Swap file size for the optional startup bootstrap script."
   default     = 2
 
   validation {
@@ -136,10 +136,10 @@ variable "swap_size_gb" {
   }
 }
 
-variable "tailscale_enabled" {
+variable "enable_startup_bootstrap" {
   type        = bool
-  description = "Whether to install Tailscale in the startup script."
-  default     = true
+  description = "Whether infrastructure apply should attach the baseline startup bootstrap script. Keep false to leave host software bootstrap fully post-provision."
+  default     = false
 }
 
 variable "labels" {

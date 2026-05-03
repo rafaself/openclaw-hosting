@@ -16,8 +16,9 @@ Provide reusable host-baseline startup logic shared across clouds whenever pract
 ## Preferred contents
 - package setup,
 - swap enablement,
-- Tailscale installation,
 - directory and log preparation.
+
+Keep private-access and runtime software installation outside this module unless there is a concrete infrastructure-only reason to do otherwise.
 
 ## Done when
 - scripts are reusable,

@@ -75,6 +75,7 @@ Before running `init` or `apply`, review and set:
 * `disk_size_gb`
 * `public_ip_mode`
 * `deletion_protection`
+* `enable_startup_bootstrap` if you want the minimal startup baseline during provisioning
 * `key_name` if you use an EC2 key pair for administration
 
 Create your local variables file from the example:
@@ -134,9 +135,10 @@ After provisioning:
 
 1. verify the instance and network path,
 2. confirm the admin access method works,
-3. enable the private access layer,
-4. install the runtime using the official installer flow,
-5. defer provider/model onboarding until later.
+3. verify the startup baseline only if you explicitly enabled it,
+4. enable the private access layer,
+5. install the runtime using the post-provision installer flow,
+6. defer provider/model onboarding until later.
 
 
 [6]: https://docs.aws.amazon.com/cli/latest/userguide/getting-started-quickstart.html?utm_source=chatgpt.com "Setting up the AWS CLI - AWS Command Line Interface"

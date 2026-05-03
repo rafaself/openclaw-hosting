@@ -7,7 +7,7 @@ Multi-cloud infrastructure and bootstrap foundation for secure self-hosted agent
 This repository provides an initial foundation for running agent runtimes on small cloud VMs with:
 
 - provider-specific VM modules for GCP and AWS,
-- a shared host bootstrap baseline,
+- an optional infrastructure startup baseline,
 - private-access-first networking,
 - layered `AGENTS.md` guidance for Codex and similar agents,
 - runtime installation separated from runtime provider/model decisions.
@@ -17,7 +17,7 @@ The first reference deployment targets:
 - a small Linux VM,
 - Debian 12 on GCP,
 - private access through Tailscale,
-- official runtime installer flow,
+- post-provision runtime installation,
 - runtime onboarding deferred until later.
 
 ## Design summary
@@ -28,10 +28,12 @@ The repository is intentionally split into three concerns:
    - creates cloud resources such as VM, disk, network attachments, and access wiring.
 
 2. **Bootstrap**
-   - prepares the host with packages, swap, Tailscale, and directories.
+   - prepares host software after provisioning, such as packages, swap, Tailscale, and runtime installation.
 
 3. **Runtime onboarding**
    - remains separate and can be performed later once the runtime provider/model is decided.
+
+`tofu apply` is intentionally limited to infrastructure. Tailscale enablement, OpenClaw installation, and runtime onboarding belong to the post-provision bootstrap flow, not the infrastructure apply.
 
 ## Repository layout
 
@@ -84,6 +86,8 @@ Set `ssh_source_cidrs` explicitly if you want public SSH access. The default exa
 
 Set `deletion_protection = true` on stacks you do not want removed accidentally during routine operations.
 
+Set `enable_startup_bootstrap = true` only if you want a minimal host-baseline startup script during provisioning. The default keeps infrastructure apply free of host software bootstrap.
+
 ### 4. Plan and apply
 ```bash
 tofu plan
@@ -95,9 +99,11 @@ After provisioning, connect to the VM and use the scripts in `bootstrap/`:
 
 ```bash
 ./bootstrap/01-post-ssh.sh
-./bootstrap/02-install-runtime.sh
 ./bootstrap/03-enable-private-access.sh
+./bootstrap/02-install-runtime.sh
 ```
+
+`03-enable-private-access.sh` installs and enables Tailscale if needed. `02-install-runtime.sh` installs the reference runtime after infrastructure provisioning; OpenClaw is not installed by `tofu apply`.
 
 ### 6. Onboard later
 When the runtime provider/model is decided:
@@ -108,7 +114,7 @@ When the runtime provider/model is decided:
 
 ## Runtime note
 
-This repository is generic by design, but the default example scripts currently use the OpenClaw installer flow as the initial reference runtime. Override the environment variables in `bootstrap/` if you want a different runtime implementation later.
+This repository is generic by design. The bootstrap scripts currently use the OpenClaw installer flow only as a reference post-provision runtime path. Override the environment variables in `bootstrap/` if you want a different runtime implementation later.
 
 ## Validation
 
@@ -126,6 +132,7 @@ make shellcheck-lite
 - no `0.0.0.0/0` SSH access by default; public SSH requires explicit trusted CIDRs,
 - each GCP VM gets a dedicated attached service account with no broad IAM roles granted by default,
 - deletion protection is available on both cloud stacks and stays opt-in by default,
+- infrastructure apply does not install Tailscale or OpenClaw unless startup bootstrap is explicitly enabled,
 - runtime services should prefer loopback binding,
 - admin access and application access should stay separate,
 - secrets do not belong in state, outputs, or committed tfvars,

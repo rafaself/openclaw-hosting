@@ -78,6 +78,7 @@ Before running `init` or `apply`, review and set:
 * `disk_size_gb`
 * `public_ip_mode`
 * `deletion_protection`
+* `enable_startup_bootstrap` if you want the minimal startup baseline during provisioning
 * `ssh_source_cidrs` if you want public SSH access
 
 Create your local variables file from the example:
@@ -135,9 +136,9 @@ tofu apply
 After provisioning:
 
 1. connect to the VM,
-2. verify the startup script completed,
+2. verify the startup baseline only if you explicitly enabled it,
 3. enable the private access layer,
-4. install the runtime using the official installer flow,
+4. install the runtime using the post-provision installer flow,
 5. defer provider/model onboarding until later.
 
 

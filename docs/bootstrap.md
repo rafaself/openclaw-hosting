@@ -4,6 +4,8 @@
 
 Bootstrap prepares the host after infrastructure provisioning without forcing final runtime choices too early.
 
+Infrastructure apply may optionally attach a small startup baseline, but host software installation is expected to remain in this post-provision bootstrap phase by default.
+
 ## Phases
 
 ### 1. Baseline host preparation
@@ -29,5 +31,7 @@ Examples:
 
 ## Notes
 
+- `tofu apply` does not install OpenClaw.
+- Tailscale enablement belongs to the private-access bootstrap step, not infrastructure apply.
 - The initial scripts use the OpenClaw installer as the reference runtime flow.
 - Override environment variables in `bootstrap/` if you want to adapt the same repository to another runtime later.

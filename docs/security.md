@@ -16,6 +16,8 @@ Tailscale is the default private access layer because it provides:
 - consistent access patterns across clouds,
 - a practical path for serving private HTTPS endpoints for local-only services.
 
+Tailscale is enabled through the post-provision bootstrap flow, not by default during infrastructure apply.
+
 ## Administrative access
 
 Examples:

@@ -1,11 +1,10 @@
 locals {
-  startup_script = templatefile(
+  startup_script = var.enable_startup_bootstrap ? templatefile(
     "${path.module}/../../../modules/startup_common/templates/startup_common.sh.tftpl",
     {
-      swap_size_gb      = var.swap_size_gb
-      tailscale_enabled = var.tailscale_enabled
+      swap_size_gb = var.swap_size_gb
     }
-  )
+  ) : ""
 }
 
 module "vm" {

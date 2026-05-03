@@ -8,7 +8,8 @@ network            = "default"
 # public_ip_mode = "none" | "ephemeral" | "static"
 public_ip_mode     = "ephemeral"
 create_ssh_firewall = true
-ssh_source_cidrs   = ["YOUR_IP/32"]
+# Empty by default: set your admin CIDR(s) explicitly to open SSH.
+ssh_source_cidrs   = []
 
 labels = {
   component = "agent-runtime"

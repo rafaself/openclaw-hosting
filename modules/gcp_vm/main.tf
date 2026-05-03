@@ -63,7 +63,7 @@ resource "google_compute_instance" "this" {
 }
 
 resource "google_compute_firewall" "ssh_admin" {
-  count = var.create_ssh_firewall && var.public_ip_mode != "none" ? 1 : 0
+  count = var.create_ssh_firewall && var.public_ip_mode != "none" && length(var.ssh_source_cidrs) > 0 ? 1 : 0
 
   name    = "${var.instance_name}-ssh-admin"
   network = var.network

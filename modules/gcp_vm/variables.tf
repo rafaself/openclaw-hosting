@@ -59,8 +59,8 @@ variable "create_ssh_firewall" {
 
 variable "ssh_source_cidrs" {
   type        = list(string)
-  description = "Source CIDRs allowed to SSH."
-  default     = ["0.0.0.0/0"]
+  description = "Source CIDRs allowed to SSH. Leave empty to keep SSH closed by default."
+  default     = []
 }
 
 variable "labels" {

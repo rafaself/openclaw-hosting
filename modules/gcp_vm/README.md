@@ -74,8 +74,8 @@ Before running `init` or `apply`, review and set:
 * `instance_name`
 * `machine_type`
 * `disk_size_gb`
-* `enable_external_ip`
-* `ssh_source_cidrs`
+* `public_ip_mode`
+* `ssh_source_cidrs` if you want public SSH access
 
 Create your local variables file from the example:
 
@@ -84,6 +84,8 @@ cp terraform.tfvars.example terraform.tfvars
 ```
 
 Then edit `terraform.tfvars` with your values.
+
+`ssh_source_cidrs` is intentionally empty by default. Add only trusted admin CIDRs, for example `203.0.113.10/32`, when you need SSH exposed on a public IP.
 
 ## Remote state
 

@@ -80,6 +80,8 @@ tofu init   -backend-config="bucket=YOUR_STATE_BUCKET"   -backend-config="key=ag
 cp terraform.tfvars.example terraform.tfvars
 ```
 
+Set `ssh_source_cidrs` explicitly if you want public SSH access. The default example keeps SSH closed until you replace it with trusted admin CIDRs such as `["203.0.113.10/32"]`.
+
 ### 4. Plan and apply
 ```bash
 tofu plan
@@ -119,6 +121,7 @@ make shellcheck-lite
 ## Security defaults
 
 - no public exposure of runtime application ports by default,
+- no `0.0.0.0/0` SSH access by default; public SSH requires explicit trusted CIDRs,
 - runtime services should prefer loopback binding,
 - admin access and application access should stay separate,
 - secrets do not belong in state, outputs, or committed tfvars,

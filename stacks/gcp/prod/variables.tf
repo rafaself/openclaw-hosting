@@ -70,8 +70,8 @@ variable "create_ssh_firewall" {
 
 variable "ssh_source_cidrs" {
   type        = list(string)
-  description = "Allowed source CIDRs for SSH when a public IP is enabled."
-  default     = ["0.0.0.0/0"]
+  description = "Allowed source CIDRs for SSH when a public IP is enabled. Leave empty to keep SSH closed by default."
+  default     = []
 }
 
 variable "swap_size_gb" {

@@ -5,6 +5,9 @@ locals {
       swap_size_gb = var.swap_size_gb
     }
   ) : ""
+
+  network    = var.create_dedicated_network ? google_compute_network.dedicated[0].self_link : var.network
+  subnetwork = var.create_dedicated_network ? google_compute_subnetwork.dedicated[0].self_link : var.subnetwork
 }
 
 module "vm" {
@@ -15,8 +18,8 @@ module "vm" {
   machine_type        = var.machine_type
   disk_size_gb        = var.disk_size_gb
   boot_image          = var.boot_image
-  network             = var.network
-  subnetwork          = var.subnetwork
+  network             = local.network
+  subnetwork          = local.subnetwork
   public_ip_mode      = var.public_ip_mode
   region              = var.region
   create_ssh_firewall = var.create_ssh_firewall

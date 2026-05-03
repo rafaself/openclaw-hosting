@@ -74,20 +74,37 @@ variable "boot_image" {
   }
 }
 
+variable "create_dedicated_network" {
+  type        = bool
+  description = "Whether the stack should create and use a dedicated VPC network and subnet instead of an existing network."
+  default     = false
+}
+
+variable "dedicated_subnet_cidr" {
+  type        = string
+  description = "IPv4 CIDR block for the dedicated subnet when create_dedicated_network is true."
+  default     = "10.10.0.0/24"
+
+  validation {
+    condition     = can(cidrhost(var.dedicated_subnet_cidr, 0))
+    error_message = "dedicated_subnet_cidr must be a valid IPv4 CIDR block such as '10.10.0.0/24'."
+  }
+}
+
 variable "network" {
   type        = string
-  description = "VPC network name."
+  description = "Existing VPC network name or self-link. Ignored when create_dedicated_network is true."
   default     = "default"
 
   validation {
-    condition     = trimspace(var.network) != ""
-    error_message = "network must not be empty. Set the target VPC network name."
+    condition     = var.create_dedicated_network || trimspace(var.network) != ""
+    error_message = "network must be set to a non-empty existing VPC name or self-link unless create_dedicated_network is true."
   }
 }
 
 variable "subnetwork" {
   type        = string
-  description = "Optional subnetwork self-link or name."
+  description = "Optional existing subnetwork self-link or name. Ignored when create_dedicated_network is true."
   default     = null
   nullable    = true
 

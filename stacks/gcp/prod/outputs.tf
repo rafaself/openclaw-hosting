@@ -18,6 +18,16 @@ output "public_ip" {
   value       = module.vm.public_ip
 }
 
+output "network" {
+  description = "VPC network used by the instance."
+  value       = local.network
+}
+
+output "subnetwork" {
+  description = "Subnetwork used by the instance, if set."
+  value       = local.subnetwork
+}
+
 output "service_account_email" {
   description = "Dedicated service account email attached to the VM."
   value       = module.vm.service_account_email

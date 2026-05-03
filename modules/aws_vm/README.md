@@ -70,13 +70,16 @@ Before running `init` or `apply`, review and set:
 * `instance_name`
 * `instance_type`
 * `ami_id`
-* `subnet_id`
-* `vpc_security_group_ids`
+* `create_dedicated_network` if you want the stack to create its own VPC and subnet
+* `subnet_id` when reusing an existing subnet
+* `vpc_security_group_ids` when reusing an existing subnet or custom security groups
 * `disk_size_gb`
 * `public_ip_mode`
 * `deletion_protection`
 * `enable_startup_bootstrap` if you want the minimal startup baseline during provisioning
 * `key_name` if you use an EC2 key pair for administration
+
+The dedicated-network path is a small single-subnet baseline. Reuse existing networking when you need custom routing, NAT, or established security group design.
 
 Create your local variables file from the example:
 

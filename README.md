@@ -88,6 +88,9 @@ Set `deletion_protection = true` on stacks you do not want removed accidentally 
 
 Set `enable_startup_bootstrap = true` only if you want a minimal host-baseline startup script during provisioning. The default keeps infrastructure apply free of host software bootstrap.
 
+Set `create_dedicated_network = true` if you want the stack to create its own network boundary. Leave it `false` to keep using an existing VPC/subnet configuration.
+The dedicated-network path is intentionally minimal; keep the existing-network path when you need custom routing, NAT, or pre-existing security controls.
+
 ### 4. Plan and apply
 ```bash
 tofu plan

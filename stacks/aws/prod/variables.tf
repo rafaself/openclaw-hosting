@@ -31,6 +31,34 @@ variable "instance_type" {
   }
 }
 
+variable "create_dedicated_network" {
+  type        = bool
+  description = "Whether the stack should create and use a dedicated VPC and subnet instead of an existing subnet."
+  default     = false
+}
+
+variable "dedicated_vpc_cidr" {
+  type        = string
+  description = "IPv4 CIDR block for the dedicated VPC when create_dedicated_network is true."
+  default     = "10.10.0.0/16"
+
+  validation {
+    condition     = can(cidrhost(var.dedicated_vpc_cidr, 0))
+    error_message = "dedicated_vpc_cidr must be a valid IPv4 CIDR block such as '10.10.0.0/16'."
+  }
+}
+
+variable "dedicated_subnet_cidr" {
+  type        = string
+  description = "IPv4 CIDR block for the dedicated subnet when create_dedicated_network is true."
+  default     = "10.10.0.0/24"
+
+  validation {
+    condition     = can(cidrhost(var.dedicated_subnet_cidr, 0))
+    error_message = "dedicated_subnet_cidr must be a valid IPv4 CIDR block such as '10.10.0.0/24'."
+  }
+}
+
 variable "ami_id" {
   type        = string
   description = "AMI ID to use for the instance."
@@ -43,11 +71,13 @@ variable "ami_id" {
 
 variable "subnet_id" {
   type        = string
-  description = "Subnet ID for the instance."
+  description = "Existing subnet ID for the instance. Not required when create_dedicated_network is true."
+  default     = null
+  nullable    = true
 
   validation {
-    condition     = trimspace(var.subnet_id) != ""
-    error_message = "subnet_id must not be empty. Set the target subnet ID before planning or applying."
+    condition     = var.create_dedicated_network || (var.subnet_id != null && trimspace(var.subnet_id) != "")
+    error_message = "subnet_id must be set to a non-empty subnet ID unless create_dedicated_network is true."
   }
 }
 

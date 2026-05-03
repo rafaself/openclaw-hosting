@@ -5,6 +5,8 @@ locals {
       swap_size_gb = var.swap_size_gb
     }
   ) : ""
+
+  subnet_id = var.create_dedicated_network ? aws_subnet.dedicated[0].id : var.subnet_id
 }
 
 module "vm" {
@@ -13,7 +15,7 @@ module "vm" {
   instance_name          = var.instance_name
   instance_type          = var.instance_type
   ami_id                 = var.ami_id
-  subnet_id              = var.subnet_id
+  subnet_id              = local.subnet_id
   vpc_security_group_ids = var.vpc_security_group_ids
   key_name               = var.key_name
   public_ip_mode         = var.public_ip_mode

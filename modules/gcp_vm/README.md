@@ -76,6 +76,8 @@ Before running `init` or `apply`, review and set:
 * `instance_name`
 * `machine_type`
 * `disk_size_gb`
+* `create_dedicated_network` if you want the stack to create its own VPC and subnet
+* `network` and `subnetwork` when reusing existing networking
 * `public_ip_mode`
 * `deletion_protection`
 * `enable_startup_bootstrap` if you want the minimal startup baseline during provisioning

@@ -18,6 +18,11 @@ output "public_ip" {
   value       = module.vm.public_ip
 }
 
+output "service_account_email" {
+  description = "Dedicated service account email attached to the VM."
+  value       = module.vm.service_account_email
+}
+
 output "admin_entrypoint" {
   description = "Recommended admin entrypoint."
   value       = module.vm.admin_entrypoint

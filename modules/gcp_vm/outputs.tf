@@ -18,6 +18,11 @@ output "public_ip" {
   value       = try(google_compute_instance.this.network_interface[0].access_config[0].nat_ip, null)
 }
 
+output "service_account_email" {
+  description = "Dedicated service account email attached to the VM."
+  value       = google_service_account.vm.email
+}
+
 output "admin_entrypoint" {
   description = "Recommended admin entrypoint."
   value       = "gcloud compute ssh ${google_compute_instance.this.name} --zone ${google_compute_instance.this.zone}"

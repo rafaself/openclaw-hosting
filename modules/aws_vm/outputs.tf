@@ -18,6 +18,11 @@ output "public_ip" {
   value       = var.public_ip_mode == "static" ? aws_eip.this[0].public_ip : aws_instance.this.public_ip
 }
 
+output "service_account_email" {
+  description = "Service account email equivalent for the instance. Not used on AWS."
+  value       = null
+}
+
 output "admin_entrypoint" {
   description = "Recommended admin entrypoint."
   value       = "Use your preferred EC2 administrative path for ${var.instance_name}."

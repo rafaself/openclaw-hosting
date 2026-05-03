@@ -122,6 +122,7 @@ make shellcheck-lite
 
 - no public exposure of runtime application ports by default,
 - no `0.0.0.0/0` SSH access by default; public SSH requires explicit trusted CIDRs,
+- each GCP VM gets a dedicated attached service account with no broad IAM roles granted by default,
 - runtime services should prefer loopback binding,
 - admin access and application access should stay separate,
 - secrets do not belong in state, outputs, or committed tfvars,

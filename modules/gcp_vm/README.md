@@ -4,6 +4,8 @@ This stack provisions the initial GCP host baseline for the runtime foundation.
 
 It is intended for a small single-VM deployment, with infrastructure provisioning kept separate from runtime onboarding and provider/model configuration.
 
+Each VM gets a dedicated attached service account. The module does not grant broad IAM roles to that service account by default.
+
 ## Before you run this stack
 
 Complete these prerequisites first:

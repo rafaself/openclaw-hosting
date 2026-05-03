@@ -1,3 +1,8 @@
+locals {
+  service_account_name = trim(regexreplace(lower(var.instance_name), "[^a-z0-9-]", "-"), "-")
+  service_account_id   = "vm-${substr(length(local.service_account_name) > 0 ? local.service_account_name : "runtime", 0, 18)}-${substr(md5(var.instance_name), 0, 8)}"
+}
+
 resource "google_compute_address" "static" {
   count  = var.public_ip_mode == "static" ? 1 : 0
   name   = "${var.instance_name}-ip"
@@ -9,6 +14,12 @@ resource "google_compute_address" "static" {
       error_message = "var.region must be set when public_ip_mode is 'static'."
     }
   }
+}
+
+resource "google_service_account" "vm" {
+  account_id   = local.service_account_id
+  display_name = "${var.instance_name} VM service account"
+  description  = "Dedicated service account for ${var.instance_name}."
 }
 
 resource "google_compute_instance" "this" {
@@ -45,6 +56,14 @@ resource "google_compute_instance" "this" {
     enable-oslogin         = "TRUE"
     block-project-ssh-keys = "TRUE"
     serial-port-enable     = "FALSE"
+  }
+
+  service_account {
+    email = google_service_account.vm.email
+    scopes = [
+      "https://www.googleapis.com/auth/logging.write",
+      "https://www.googleapis.com/auth/monitoring.write",
+    ]
   }
 
   metadata_startup_script = var.startup_script
